@@ -16,11 +16,12 @@
 
 	p{
 		font-family: Helvetica;
-		font-size:150%;
+		font-size:130%;
 		color: #ffd202;
 		text-align: center;
     	position: relative;
     	margin-top: 8%;
+
     	text-decoration: none;
 	}
 	a{
