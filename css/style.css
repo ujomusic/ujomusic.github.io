@@ -7305,6 +7305,20 @@ section.dual .contact-holder .button {
 section.dual .contact-holder .button:hover {
   color: #372836;
 }
+.prototype {
+  color: #666 !important;
+  border-color: #666 !important;
+}
+.prototype:hover,
+.prototype:active,
+.prototype:visited,
+.prototype:focus {
+  background: transparent !important;
+  color: #666 !important;
+  border-color: #666 !important;
+  text-decoration: none !important;
+  cursor: default !important;
+}
 footer {
   background: #291e28;
   padding-top: 40px;
