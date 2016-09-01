@@ -1,0 +1,37 @@
+.ujo-footer{
+    height: 310px;
+    background: $footer-color;
+    padding-top: 65px;
+    padding-bottom: 60px;
+    
+    .social-links {
+        text-align: center;
+        margin-bottom: 40px;
+        ul{
+            list-style: none;
+            padding: 0;
+            li{
+                display: inline-block;
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                margin-right: 12px;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+    .copyright{
+        
+        
+        p{
+            margin-top: 30px;
+            padding: 0;
+            text-align: center;
+        }
+    }
+    
+       
+}
+

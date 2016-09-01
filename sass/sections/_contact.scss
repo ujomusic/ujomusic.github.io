@@ -1,0 +1,100 @@
+.blog-contact{
+    $section-height: 650px;
+    $section-width: 300px;
+    $break-medium: 991px;
+    .container-fluid{
+        .row{
+            .blog{
+                background: $blog-background;
+                min-height: $section-height;
+                .content{
+                    width: 70%;
+                    max-width: $section-width;
+                    margin-left: auto;
+                    margin-right: 10%;
+                    margin-top: 40px;
+                    @media screen and (max-width: $break-medium) {
+                        margin: auto;
+                    }
+                    position: relative;
+                    .btn-more{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+
+                    .entries{
+                        width: 100%;
+                        .entry{
+                            position: relative;
+                            width: 100%;
+                            height: 150px;
+                            margin-bottom: 20px;
+                            overflow:hidden;
+
+                            opacity: 1;
+                            transition: opacity .25s ease-in-out;
+                            -moz-transition: opacity .25s ease-in-out;
+                            -webkit-transition: opacity .25s ease-in-out;
+
+                            .blog-image-container {
+                                position: absolute;
+                                width: 350px;
+                                height: 150px;
+                                background-position: center center;
+                                background-repeat: no-repeat;
+                                background-size: auto 150px;
+                            }
+                            div{
+                                position: absolute;
+                                bottom: 5px;
+                                color:white;
+                                width: 100%;
+                                text-align: center;
+                            }
+                        }
+                        .entry:hover {
+                            opacity: 0.5;
+                        }
+                    }
+                }
+            }
+            .contact{
+                background: $contact-background;
+                min-height: $section-height;
+                .content{
+                    width: 70%;
+                    max-width: $section-width;
+                    margin-right: auto;
+                    margin-left: 10%;
+                     margin-top: 40px;
+                    @media screen and (max-width: $break-medium) {
+                        margin: auto;
+                    }
+                    .form-control{
+                        background-color: transparent;
+                        border-color: $light-white-color;
+
+                    }
+                    label{
+                        color: $light-white-color;
+                        font-family: montserratlight;
+                    }
+                    button{
+                        float: right;
+                        &:after{
+                            clear: both;
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+
+
+
+    }
+
+}

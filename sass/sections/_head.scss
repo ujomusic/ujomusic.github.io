@@ -1,0 +1,79 @@
+.ujo-head{
+    background: url(../img/bg_head.jpg) no-repeat center;
+    background-size: cover;
+    min-height: 100%;
+    .head-content{
+        margin-top:100px;
+        min-height: 100%;
+        font-size: 18px;
+        .abstract{
+            max-width: 560px;
+            margin: auto;
+            p{
+                padding: 0 20px;
+                font-family: montserrathairline;
+                text-align: center;
+                color: #CFCDD0;
+                line-height: 2em;
+                
+                span{
+                    font-family: montserratlight;
+                    color: #FFF;
+                    font-size: 1.1em;
+                }
+            }
+        }
+        .ujo-logo{
+            
+            text-align: center;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 80px;
+            width: 100px;
+        }
+        .info{
+            max-width: 400px;
+            margin: auto;
+            margin-top: 60px;
+
+            span{
+                font-family: montserratlight;
+                color:rgba(255,255,255,1);
+                &.at{
+                    text-transform: uppercase;
+                    font-family: montserrathairline;
+                    color: $ujo-yellow;
+                }
+            }
+
+            hr{
+                border-top: 1px solid $ujo-yellow;
+            }
+            a{
+                font-family: montserrathairline;
+                text-align: left;
+                padding: 0;
+                margin: 0;
+            }
+
+            .date{
+                margin-top:15px;
+                p{
+                    margin:0;
+                    padding:0;
+                    text-align:center;
+                }
+                .day{
+                    font-size:38px;
+                    font-family: montserrathairline;
+                    padding-bottom: 10px;
+                }
+                .month{
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    margin-top: -10px;
+                }
+            }
+        }
+    }
+}

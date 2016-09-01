@@ -1,0 +1,15 @@
+.ujo-future {
+    background: $feature-background;
+    background-image: url('../img/bg_future.jpg');
+    background-size: cover;
+    min-height: 100%;
+    .content{
+        margin-top: 10%;
+        p{
+            margin-left: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.7em;
+        }
+    }
+}

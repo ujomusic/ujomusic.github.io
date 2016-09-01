@@ -1,0 +1,40 @@
+{
+  "name": "ujo-music",
+  "version": "1.0.0",
+  "description": "Ujo Music",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ConsenSys/ujo-music.git"
+  },
+  "homepage": "https://github.com/ConsenSys/ujo-music",
+  "bugs": {
+    "url": "https://github.com/ConsenSys/ujo-music/issues"
+  },
+  "authors": [
+    {
+      "name": "Karl Floersch",
+      "email": "karl.floersch@consensys.net",
+      "url": "https://karl.tech"
+    }
+  ],
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "css-loader": "^0.24.0",
+    "file-loader": "^0.9.0",
+    "node-sass": "^3.8.0",
+    "sass-loader": "^4.0.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.0"
+  },
+  "dependencies": {
+    "email-validator": "^1.0.5"
+  }
+}

@@ -1,0 +1,66 @@
+.ujo-team {
+    text-align: center;
+    background: $team-background;
+    min-height: 100%;
+    .content{
+        margin-top: 50px;
+        .members{
+            ul{
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                text-align: center;
+                li{
+                    display: inline-block;
+                    width: 200px;
+                    .profile-picture{
+                        height: 120px;
+                        width: 120px;
+                        border-radius: 50%;
+                    }
+                    p{
+                        margin:0;
+                        padding: 0;
+                        text-align:center;
+                    }
+                    .name{
+
+                        color:white;
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+                    .charge{
+                        color:gray;
+                        font-size: 12px;
+                    }
+
+
+
+                    margin-bottom: 20px;
+                    margin-right: 0px;
+
+                    @for $cols from 1 through 10{
+                        $width: $colwidth * $cols;
+                        @media(min-width: $width){
+                            @if($cols > 4){
+                                margin-right: 40px;
+                                margin-left: 40px;
+                                margin-top: 40px;
+                                margin-bottom: 40px;
+                            }
+                        }
+                    }
+
+                }
+            }
+            @for $cols from 1 through 10{
+                $width: $colwidth * $cols;
+                @media(min-width: $width){
+                    @if($cols > 4){
+                        margin-top: 00px;
+                    }
+                }
+            }
+        }
+    }
+}

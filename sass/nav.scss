@@ -1,0 +1,52 @@
+#nav {
+  $break-medium: 991px;
+
+  position: fixed;
+  top: 10vh;
+  right: 0;
+  float: right;
+
+
+  li{
+    line-height: 2em;
+    list-style-type: none;
+    padding-right: 58px;
+    text-align: right;
+
+    a {
+      text-decoration: none;
+      color: $light-gray;
+      visibility: visible;
+      @media screen and (max-width: $break-medium) {
+        visibility: hidden;
+      }
+    }
+
+    .bullet-point {
+      position: absolute;
+      right: 20px;
+      width: 0.8em;
+      height: 0.8em;
+      margin-top: -1.4em;
+      background-color: #FFF;
+      border-radius: 50%;
+      visibility: visible;
+    }
+  }
+  .current {
+    a {
+      .nav-text{
+        color: white !important;
+        visibility: visible;
+        @media screen and (max-width: $break-medium) {
+          visibility: hidden;
+        }
+      }
+    }
+
+    
+    .bullet-point {
+      background-color: $ujo-yellow !important;
+    }
+  }
+}

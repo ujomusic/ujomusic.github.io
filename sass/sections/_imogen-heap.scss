@@ -1,0 +1,23 @@
+.ujo-imogen-heap{
+    background: url(../img/bg_imogen.jpg) no-repeat center;
+    background-size: cover;
+    min-height: 100%;
+    .content{
+        margin-top: 15%;
+        p{
+            margin-left: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.7em;
+        }
+        ul {
+            li { 
+                color: $ujo-yellow; 
+                margin-bottom: 10px;
+                span{
+                    color:white;
+                }
+            }
+        }
+    }
+}
